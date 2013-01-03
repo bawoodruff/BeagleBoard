@@ -1,0 +1,21 @@
+TARGETNAME=PEtoBinary
+TARGETTYPE=PROGRAM
+UMTYPE=console
+UMENTRY=wmain
+
+TARGET_DESTINATION=RETAIL
+
+MUI=0
+MUI_COMMENT=Not Localizeable
+USE_LIBCMT=1
+UNICODE=1
+                   
+USER_C_FLAGS=$(USER_C_FLAGS) /DUNICODE /D_UNICODE 
+
+LINKLIBS=\
+    $(SDK_LIB_PATH)\ImageHlp.lib
+
+SOURCES=\
+    PEtoBinary.c    \
+    PEtoBinary.rc
+

@@ -1,0 +1,28 @@
+TARGETNAME=runtime
+TARGETTYPE=LIBRARY
+UMTYPE=beagle
+
+TARGET_DESTINATION=RETAIL
+
+!include ..\common.mk
+
+C_DEFINES=$(C_DEFINES) -D__KERNEL__
+
+INCLUDES=\
+    ..\Board\arm;   \
+    $(PROJECT_ROOT)\BootLoader\inc\asm\arch;    \
+    $(INCLUDES);
+
+OBJLIBFILES=\
+    arm\memcpy.obj
+
+SOURCES=\
+    board.c         \
+    div0.c          \
+    dcc.c           \
+    ecc.c           \
+    printf.c        \
+    _udiv.c         \
+    arm\_div10.s    \
+    arm\_delay.s    \
+    arm\_dcc.s

@@ -1,0 +1,17 @@
+TARGETNAME=disk
+TARGETTYPE=LIBRARY
+UMTYPE=beagle
+
+TARGET_DESTINATION=RETAIL
+
+!include ..\common.mk
+
+C_DEFINES=$(C_DEFINES) -D__KERNEL__
+
+INCLUDES=\
+    ..\Board\arm;   \
+    $(PROJECT_ROOT)\Loader\inc\asm\arch;    \
+    $(INCLUDES);
+
+SOURCES=\
+    part.c

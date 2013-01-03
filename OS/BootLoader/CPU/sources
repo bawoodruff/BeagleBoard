@@ -1,0 +1,50 @@
+TARGETNAME=X-Load
+TARGETTYPE=PROGRAM
+UMTYPE=beagle
+SUBSYSTEM=native
+UMENTRY=/entry:_start
+
+TARGET_DESTINATION=RETAIL
+
+!include ..\common.mk
+
+C_DEFINES=$(C_DEFINES) -D__KERNEL__
+
+BINPLACE_NO_SYMCHK=1
+NO_DYNAMICBASE=1
+UMBASE=0x00000000
+NO_RDATA_MERGE=1
+
+ARM_ASM_ENCODING=ARM32
+ARM_ASMFLAGS=-ignore 4238
+
+ROMBASE_OBJ=\
+    $(OBJ_PATH)\$(O)\start.obj
+
+LINKER_FLAGS=$(LINKER_FLAGS) /map
+
+LINKLIBS=\
+    $(PROJECT_OBJ_ROOT)\BootLoader\Board\$(O)\Board.lib         \
+    $(PROJECT_OBJ_ROOT)\BootLoader\Common\$(O)\Common.lib       \
+    $(PROJECT_OBJ_ROOT)\BootLoader\Disk\$(O)\Disk.lib           \
+    $(PROJECT_OBJ_ROOT)\BootLoader\Drivers\$(O)\Drivers.lib     \
+    $(PROJECT_OBJ_ROOT)\BootLoader\FileSystem\FAT\$(O)\fat.lib  \
+    $(PROJECT_OBJ_ROOT)\BootLoader\Runtime\$(O)\Runtime.lib     \
+
+INCLUDES=\
+    ..\Board\arm;   \
+    $(PROJECT_ROOT)\BootLoader\inc\asm\arch;    \
+    $(INCLUDES);
+
+SOURCES=\
+    arm\start.s \
+    cpu.c       \
+    gpio.c      \
+    mmc.c       \
+    sys_info.c  \
+
+MISCFILES=\
+    $(PROJECT_OBJ_ROOT)\BootLoader\CPU\$(O)\MLO
+
+USE_MAKEFILE_INC=1
+

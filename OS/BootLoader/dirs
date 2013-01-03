@@ -1,0 +1,9 @@
+DIRS=\
+    Board       \
+    Common      \
+    Disk        \
+    Drivers     \
+    FileSystem  \
+    Runtime	    \
+    CPU
+

@@ -1,0 +1,20 @@
+TARGETNAME=SignGP
+TARGETTYPE=PROGRAM
+UMTYPE=console
+UMENTRY=main
+
+TARGET_DESTINATION=RETAIL
+
+MUI=0
+MUI_COMMENT=Not Localizeable
+USE_LIBCMT=1
+
+INCLUDES=\
+    $(PROJECT_ROOT)\BootLoader\inc\asm\arch;\
+	$(PROJECT_ROOT)\BootLoader\inc;\
+    $(INCLUDES);
+
+SOURCES=\
+    SignGP.c    \
+    SignGP.rc
+

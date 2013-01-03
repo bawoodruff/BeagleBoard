@@ -1,0 +1,10 @@
+#include "VerRsrc.h"
+#include "versionp.h"
+
+#define VER_FILETYPE                VFT_APP
+#define VER_FILESUBTYPE             VFT2_UNKNOWN
+
+#define VER_FILEDESCRIPTION_STR     "BeagleBoard boot loader signing tool"
+#define VER_INTERNALNAME_STR        "SignGP.exe"
+
+#include "common.ver"

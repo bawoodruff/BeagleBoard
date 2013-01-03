@@ -1,0 +1,17 @@
+TARGETNAME=board
+TARGETTYPE=LIBRARY
+UMTYPE=beagle
+
+TARGET_DESTINATION=RETAIL
+
+!include ..\common.mk
+
+C_DEFINES=$(C_DEFINES) -D__KERNEL__
+
+INCLUDES=\
+    $(PROJECT_ROOT)\BootLoader\inc\asm\arch;    \
+    $(INCLUDES);
+
+SOURCES=\
+    omap3530beagle.c    \
+    arm\platform.s

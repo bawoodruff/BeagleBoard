@@ -1,0 +1,2 @@
+UMINCL=$(CRT_INC_PATH)
+ 

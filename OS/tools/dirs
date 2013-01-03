@@ -1,0 +1,4 @@
+DIRS=\
+    PEtoBinary{!arm}    \
+    SignGP{!arm}        \
+

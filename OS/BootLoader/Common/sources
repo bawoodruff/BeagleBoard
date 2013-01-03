@@ -1,0 +1,11 @@
+TARGETNAME=Common
+TARGETTYPE=LIBRARY
+UMTYPE=beagle
+
+C_DEFINES=$(C_DEFINES) -D__KERNEL__
+
+!include ..\common.mk
+
+SOURCES=\
+    cmd_load.c
+
