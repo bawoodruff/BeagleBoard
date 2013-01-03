@@ -1,26 +1,27 @@
 BeagleBoard / ARM development with MSVC toolset
 ===============================================
 
-My current ARM development environment includes an ARM Cortex-A8 / TI DM3730 based BeagleBoard-xM 
-and the Flyswatter2 JTAG Debugger. 
+My current ARM development environment includes an ARM Cortex-A8 / TI DM3730 
+based BeagleBoard-xM and the Flyswatter2 JTAG Debugger. 
 
 As part of my introduction to the environment, I modified the XLoader boot loader 
 and developed a set of tools by borrowing from the Windows 8 DDK/SDK and 
 Visual Studio C++ (MSVC) ARM compiler and assembler.  
 
-Using this Microsoft ARM tool chain generates COFF based images rather than ELF as with the 
-GNU toolchain.  To address COFF images, I also created a coff2bin tool to generate the loader 
-image from the linked image.
+Using this Microsoft ARM tool chain generates COFF based images rather than ELF as 
+with the GNU toolchain.  To address COFF images, I also created a coff2bin tool to 
+generate the loader image from the linked image.
 
 My plan is to modify the loader to expose a KD interface so that debugging can be 
 performed with WinDBG rather than GDB.
 
-These efforts are really only intended to gain more low-level experience on the ARM hardware, 
-while demonstrating how to configure the MSVC tool chain to generate the relevant Thumb-2 code.
+These efforts are really only intended to gain more low-level experience on the ARM 
+hardware, while demonstrating how to configure the MSVC tool chain to generate the 
+relevant Thumb-2 code.
 
 This public GIT repo (https://github.com/bawoodruff/BeagleBoard) is a snapshot/shadow 
-of the MSVC build environment that I’m using and a set of scripts to populate the tools 
-directories based on installed DDK/SDK/MSVC tool chains.
+of the MSVC build environment that I’m using and a set of scripts to populate the 
+tools directories based on installed DDK/SDK/MSVC tool chains.
 
 See http://www.woodruffs.org/category/arm-development/ for more information.
 
