@@ -1,7 +1,15 @@
+// workaround sal.h redefinition
+#pragma warning(disable:4005)
 #include <windows.h>
+#pragma warning(default:4005)
+
 #include <imagehlp.h>
 #include <process.h>
 #include <stdio.h>
+
+#define IMAGE_REL_BASED_SECTION				  6
+#define IMAGE_REL_BASED_REL					  7
+#define IMAGE_REL_BASED_ARM_MOV32T			  7
 
 ULONG RvaToAbsoluteOffset(
    PVOID Base,
