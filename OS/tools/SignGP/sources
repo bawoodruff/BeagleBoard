@@ -11,7 +11,7 @@ USE_LIBCMT=1
 
 INCLUDES=\
     $(PROJECT_ROOT)\BootLoader\inc\asm\arch;\
-	$(PROJECT_ROOT)\BootLoader\inc;\
+    $(PROJECT_ROOT)\BootLoader\inc;\
     $(INCLUDES);
 
 SOURCES=\

@@ -35,6 +35,7 @@ VBar	SETS    "|"
 		GBLS	FuncEndName
 		GBLS	ExceptHandler
 		GBLS	ExceptData
+		GBLA    TempAreaCount
 AreaName SETS	"|.text|"
 HaveExceptHandler SETL {FALSE}
 
@@ -93,7 +94,7 @@ ExceptBit   SETS	"0"
     DCD     (($PrologName-$FuncName)/4) :OR: ((($FuncEndName-$FuncName)/4):SHL:8) :OR: 0x40000000 :OR: $ExceptBit
 	AREA $AreaName,CODE,READONLY
 	ALIGN	2
-	EXPORT	$FuncName
+	EXPORT	$FuncName [FUNC]
 	IF HaveExceptHandler
     DCD $ExceptHandler
     DCD $ExceptData
@@ -123,7 +124,7 @@ ExceptBit   SETS	"0"
     DCD     (($PrologName-$FuncName)/2) :OR: ((($FuncEndName-$FuncName)/2):SHL:8) :OR: $ExceptBit
 	AREA $AreaName,CODE,READONLY
 	ALIGN	2
-	EXPORT	$FuncName
+	EXPORT	$FuncName [FUNC]
 	IF HaveExceptHandler
     DCD $ExceptHandler
     DCD $ExceptData
@@ -153,7 +154,7 @@ ExceptBit   SETS	"0"
     DCD     (($PrologName-$FuncName)/4) :OR: ((($FuncEndName-$FuncName)/4):SHL:8) :OR: 0x40000000 :OR: $ExceptBit
 	AREA $AreaName,CODE,READONLY
 	ALIGN	2
-	EXPORT	$FuncName
+	EXPORT	$FuncName [FUNC]
 	IF HaveExceptHandler
     DCD $ExceptHandler
     DCD $ExceptData
@@ -169,12 +170,115 @@ $PrologName
 	MEND
 
 	MACRO
+	PROLOG_PUSH	$Regs
+
+;	LCLS 	TempLabel
+;
+;TempAreaCount SETA TempAreaCount+1
+;TempLabel SETS VBar:CC:"Temp.":CC:"$TempAreaCount":CC:VBar
+;
+;	EXPORT	$TempLabel [FUNC]
+;$TempLabel
+
+	push	$Regs
+
+	LCLA	RegSize
+	IF "$Regs"="{r4-r11}"
+RegSize	SETA	7*4
+	ENDIF
+
+;TempAreaCount SETA TempAreaCount+1
+;TempLabel SETS VBar:CC:"Temp.":CC:"$TempAreaCount":CC:VBar
+;
+;	EXPORT	$TempLabel [FUNC]
+;$TempLabel
+	add	r11, sp, RegSize
+	MEND
+
+	MACRO
+	PROLOG_POP	$Regs
+
+	pop	$Regs
+	MEND    		 
+
+	MACRO
+	PROLOG_NOP	$Inst, $p1, $p2
+
+	IF "$p2" <> ""
+;	LCLS 	TempLabel
+;
+;TempAreaCount SETA TempAreaCount+1
+;TempLabel SETS VBar:CC:"Temp.":CC:"$TempAreaCount":CC:VBar
+
+	$Inst	,$p1, $p2
+
+;	EXPORT	$TempLabel [FUNC]
+;$TempLabel
+
+	ELSE
+	$Inst	,$p1
+	ENDIF
+
+	MEND
+
+	MACRO
+	EPILOG_NOP	$Inst, $p1
+
+;	LCLS 	TempLabel
+;
+;TempAreaCount SETA TempAreaCount+1
+;TempLabel SETS VBar:CC:"Temp.":CC:"$TempAreaCount":CC:VBar
+;
+;	EXPORT	$TempLabel [FUNC]
+;$TempLabel
+
+	$Inst	$p1
+
+	MEND
+
+	MACRO
+	EPILOG_RETURN
+
+;	LCLS 	TempLabel
+;
+;TempAreaCount SETA TempAreaCount+1
+;TempLabel SETS VBar:CC:"Temp.":CC:"$TempAreaCount":CC:VBar
+;
+;	EXPORT	$TempLabel [FUNC]
+;$TempLabel
+
+	bx	lr
+
+	MEND
+
+
+	MACRO
+	EPILOG_POP	$Regs, $EpilogLabel
+
+	LCLS 	TempLabel
+;
+;TempAreaCount SETA TempAreaCount+1
+	IF "$EpilogLabel" <> ""
+TempLabel SETS VBar:CC:"$EpilogLabel":CC:VBar
+	EXPORT	$TempLabel [FUNC]
+$TempLabel
+;	ELSE
+;TempLabel SETS VBar:CC:"Temp.":CC:"$TempAreaCount":CC:VBar
+	ENDIF
+
+;	EXPORT	$TempLabel [FUNC]
+;$TempLabel
+	pop	$Regs
+
+	MEND
+
+	MACRO
 	LEAF_ENTRY	$Name
 FuncName SETS    VBar:CC:"$Name":CC:VBar
 PrologName SETS	"Invalid Prolog"
 FuncEndName SETS    VBar:CC:"$Name":CC:"_end":CC:VBar
 	ALIGN	2
-	EXPORT	$FuncName
+	EXPORT	$FuncName [FUNC]
 $FuncName
 	ROUT
 	MEND
@@ -183,12 +287,22 @@ $FuncName
 	ALTERNATE_ENTRY	$Name
 	LCLS    TempName
 TempName SETS    VBar:CC:"$Name":CC:VBar
-	EXPORT	$TempName
+	EXPORT	$TempName [FUNC]
 $TempName
 	MEND
 
 	MACRO
 	ENTRY_END	$Name
+$FuncEndName
+	MEND
+
+	MACRO
+	NESTED_END	$Name
+$FuncEndName
+	MEND
+
+	MACRO
+	LEAF_END	$Name
 $FuncEndName
 	MEND
 
@@ -213,5 +327,5 @@ ExceptData SETS    "$HandlerData"
 HaveExceptHandler SETL {TRUE}
 	MEND
 
-
 	END
+

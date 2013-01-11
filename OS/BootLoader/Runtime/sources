@@ -13,9 +13,6 @@ INCLUDES=\
     $(PROJECT_ROOT)\BootLoader\inc\asm\arch;    \
     $(INCLUDES);
 
-OBJLIBFILES=\
-    arm\memcpy.obj
-
 SOURCES=\
     board.c         \
     div0.c          \
@@ -25,4 +22,5 @@ SOURCES=\
     _udiv.c         \
     arm\_div10.s    \
     arm\_delay.s    \
-    arm\_dcc.s
+    arm\_dcc.s      \
+    arm\memcpy.s

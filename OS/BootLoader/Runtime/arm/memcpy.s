@@ -2,9 +2,9 @@
 ; Copyright (c) Microsoft Corporation.  All rights reserved.
 ;**********
 
-#include "ksarm.h"
+	INCLUDE kxarm.inc
 
-#define LOOKAHEAD_SIZE 64
+LOOKAHEAD_SIZE 	equ	64
 
         GBLA    COUNT
 
@@ -241,13 +241,11 @@ CSMLoop ldr     r4, [r1]                                ; fetch pair of words
         bhs     CSMLoop                                 ; loop while we still have data remaining
 CSMSkip adds    r2, r2, #8                              ; recover final count
 
-        EPILOG_POP {r4-r11}
+        EPILOG_POP {r4-r11}, __memcpy_large_epilog2_start 
         EPILOG_NOP bne CpySmal                          ; if some left, continue with small
         EPILOG_RETURN                                   ; else just return
 
         NESTED_END __memcpy_large
-
-
 
         LEAF_ENTRY memmove
 
@@ -255,6 +253,7 @@ CSMSkip adds    r2, r2, #8                              ; recover final count
         cmp     r3, r2                                  ; compare against size
         bhs     memcpy                                  ; if no overlap, we can just do memcpy
 
+	ALIGN	4
         ALTERNATE_ENTRY __memmove_reverse
 
         cmp     r2, #16                                 ; less than 16 bytes?
@@ -391,6 +390,7 @@ Move15  ldrh    r3, [r1, #12]
 
         LEAF_END memmove
 
+	ALIGN	4
 
         NESTED_ENTRY __memmove_large
 
